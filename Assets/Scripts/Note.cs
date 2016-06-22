@@ -19,7 +19,7 @@ public class Note : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector3 tempPos = myTransform.localPosition;
-        tempPos.x -= speed * Time.deltaTime;
+        tempPos.y -= speed * Time.deltaTime;
         myTransform.localPosition = tempPos;
 	}
 
