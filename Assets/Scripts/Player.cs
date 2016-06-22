@@ -6,13 +6,23 @@ public class Player : MonoBehaviour {
 
     private RectTransform myTransform;
 
-    public float moveSpeed = 10.0f;
+    public float moveSpeed = 0.5f;
 
-    private float posLarge = 0.0f;
-    private float posSmall = 0.0f;
+    private Vector3 targetPos = new Vector3(0, 0, 0);
+    private Vector3 lastTarget = new Vector3(0, 0, 0);
+    private float distnace;
+    private float moveTime = 0.1f;
+    private float direction = 1f;
 
-    public float largeDist = 300.0f;
-    public float smallDist = 50.0f;
+    private Vector3 posL3 = new Vector3(-250, 0, 0);
+    private Vector3 posL2 = new Vector3(-200, 0, 0);
+    private Vector3 posL1 = new Vector3(-150, 0, 0);
+    private Vector3 posL = new Vector3(-50, 0, 0);
+    private Vector3 pos0 = new Vector3(0, 0, 0);
+    private Vector3 posR = new Vector3(50, 0, 0);
+    private Vector3 posR1 = new Vector3(150, 0, 0);
+    private Vector3 posR2 = new Vector3(200, 0, 0);
+    private Vector3 posR3 = new Vector3(250, 0, 0);
 
 	// Use this for initialization
 	void Start () {
@@ -21,64 +31,98 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Controll();
+        Controls();
         MovePlayer();
 	}
 
-    //MOves the player
-    void MovePlayer()
+
+    //Handles Piano Style Controls
+    void Controls()
     {
-        Vector3 tempPos = myTransform.localPosition;
+        if(Input.GetKeyDown("a"))
+        {
+            targetPos = posL3;
+        }
 
+        if (Input.GetKeyDown("s"))
+        {
+            targetPos = posL2;
+        }
 
-        myTransform.localPosition = new Vector3(0, ((posLarge * largeDist) + (posSmall * smallDist)), 0 );
+        if (Input.GetKeyDown("d"))
+        {
+            targetPos = posL1;
+        }
+
+        if (Input.GetKeyDown("f"))
+        {
+            targetPos = posL;
+        }
+
+        if (Input.GetKeyDown("g"))
+        {
+            targetPos = pos0;
+        }
+
+        if (Input.GetKeyDown("h"))
+        {
+            targetPos = posR;
+        }
+
+        if (Input.GetKeyDown("j"))
+        {
+            targetPos = posR1;
+        }
+
+        if (Input.GetKeyDown("k"))
+        {
+            targetPos = posR2;
+        }
+
+        if (Input.GetKeyDown("l"))
+        {
+            targetPos = posR3;
+        }
     }
 
-    //Handles player inputs
-    void Controll()
+    //moves the player to the desired loaction
+    void MovePlayer()
     {
-        //Key down
-        if(Input.GetKeyDown("q")|| Input.GetKeyDown("up"))
+        //Grabs current Position
+        Vector3 tempPos = myTransform.localPosition;
+
+        if(targetPos != lastTarget)
         {
-            posLarge++;
+            Vector3 holdPos = tempPos;
+
+            distnace = Vector3.Distance(targetPos,holdPos);
+            if(targetPos.x > tempPos.x)
+            {
+                direction = 1;
+            }
+            else
+            {
+                direction = -1;
+            }
+
+            lastTarget = targetPos;
         }
 
-        if (Input.GetKeyDown("w") || Input.GetKeyDown("down"))
+        float step = (distnace / moveTime) * direction;
+
+        tempPos.x += (step * Time.deltaTime);
+
+        if(direction == 1 && tempPos.x > targetPos.x)
         {
-            posLarge--;
+            tempPos = targetPos;
         }
 
-
-        if (Input.GetKeyDown("o") || Input.GetKeyDown("left"))
+        if (direction == (-1) && tempPos.x < targetPos.x)
         {
-            posSmall++;
+            tempPos = targetPos;
         }
 
-        if (Input.GetKeyDown("p") || Input.GetKeyDown("right"))
-        {
-            posSmall--;
-        }
-
-        //Key up
-        if (Input.GetKeyUp("q") || Input.GetKeyUp("up"))
-        {
-            posLarge--;
-        }
-
-        if (Input.GetKeyUp("w") || Input.GetKeyUp("down"))
-        {
-            posLarge++;
-        }
-
-
-        if (Input.GetKeyUp("o") || Input.GetKeyUp("left"))
-        {
-            posSmall--;
-        }
-
-        if (Input.GetKeyUp("p") || Input.GetKeyUp("right"))
-        {
-            posSmall++;
-        }
+        myTransform.localPosition = tempPos;
+        
     }
 }
