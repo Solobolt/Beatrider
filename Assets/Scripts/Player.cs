@@ -14,6 +14,7 @@ public class Player : MonoBehaviour {
     private float moveTime = 0.1f;
     private float direction = 1f;
 
+    #region Stuff
     private Vector3 posL3 = new Vector3(-250, 0, 0);
     private Vector3 posL2 = new Vector3(-200, 0, 0);
     private Vector3 posL1 = new Vector3(-150, 0, 0);
@@ -23,8 +24,9 @@ public class Player : MonoBehaviour {
     private Vector3 posR1 = new Vector3(150, 0, 0);
     private Vector3 posR2 = new Vector3(200, 0, 0);
     private Vector3 posR3 = new Vector3(250, 0, 0);
+    #endregion
 
-	// Use this for initialization
+    // Use this for initialization
 	void Start () {
         myTransform = this.gameObject.GetComponent<RectTransform>();
 	}
