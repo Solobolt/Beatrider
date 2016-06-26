@@ -5,7 +5,8 @@ using System.Collections;
 public enum Control
 {
     PianoKeys,
-    SixKeys
+    SixKeys,
+    LeftRight
 }
 
 public class Player : MonoBehaviour {
@@ -41,9 +42,28 @@ public class Player : MonoBehaviour {
     private Vector3 posR3 = new Vector3(250, 0, 0);
     #endregion
 
+    #region LeftRightValues
+
+    private Vector3[] LRarray;
+    private int LRPos = 0;
+    #endregion
+
     // Use this for initialization
-	void Start () {
+    void Start () {
         myTransform = this.gameObject.GetComponent<RectTransform>();
+
+        if(controlType == Control.LeftRight)
+        {
+            LRarray[0] = posL3;
+            LRarray[1] = posL2;
+            LRarray[2] = posL1;
+            LRarray[3] = posL;
+            LRarray[4] = pos0;
+            LRarray[5] = posR;
+            LRarray[6] = posR1;
+            LRarray[7] = posR2;
+            LRarray[8] = posR3;
+        }
 	}
 	
 	// Update is called once per frame
@@ -60,12 +80,44 @@ public class Player : MonoBehaviour {
                 MovePlayer();
                 break;
 
+            case Control.LeftRight:
+                LeftRightControls();
+                MovePlayer();
+                break;
+
             default:
                 PianoKeys();
                 MovePlayer();
                 break;
         }
 	}
+    //Handles LeftRight Controls
+    void LeftRightControls()
+    {
+        if (Input.GetKeyDown("a"))
+        {
+            LRPos--;
+        }
+
+        if (Input.GetKeyDown("d"))
+        {
+            LRPos++;
+        }
+
+        if (LRPos >= (LRarray.Length))
+        {
+            LRPos = 0;
+        }
+
+        if(LRPos < 0)
+        {
+            LRPos = LRarray.Length - 1;
+        }
+
+        targetPos = LRarray[LRPos];
+
+
+    }
 
     //Handles 6 sey system
     void SixKeys()
