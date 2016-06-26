@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum note
 {
-    none,A,B,C,D,E,F,G
+    none,A,B,C,D,E,F,G,end
 }
 
-public class GameController : MonoBehaviour {
+public class GameController : SingletonBehaviour<GameController> {
 
     public Transform[] SpawnLocation;
 
-    public note[] song;
+    public List<note> songNotes = new List<note>();
+    public bool hasSong = false;
 
     public GameObject notes;
     public GameObject canvas;
@@ -21,15 +23,26 @@ public class GameController : MonoBehaviour {
     [Range (10,1000)]
     public float tempo = 180.0f;
     private float timer = 0.0f;
-	// Use this for initialization
-	void Start () {
 
+    TextAsset song;
+
+    //Also delete this line when you have a script on a song selection screen, again, this was just for testing the 1 song.
+    public TextAsset maryHadALittleLamb;
+
+	void Start () {
+        //AFTER YOU HAVE CHOSEN A SONG IN THE 'SONG SELECTION SCENE', YOU WILL CALL:
+        //song = whateverTheChosenSongWasFromTheSongSelectionMenu //make sure the songs are TextAssets so it matches the 'song' variable
+        //ReadLevel.Instance.LoadInCSV(song);
+
+        //Delete below when you ahve more tahn one CSV song, this was just for testing the 1.
+        song = maryHadALittleLamb;
+        ReadLevel.Instance.LoadInCSV(maryHadALittleLamb);
 	}
 
     //Restart song if the cord count stops
     void CheckSongCount()
     {
-        if (songCount > song.Length -1)
+        if (songCount > songNotes.Count -1)
         {
             songCount = 0;
         }
@@ -47,11 +60,11 @@ public class GameController : MonoBehaviour {
             {
                 timer = 0;
 
-                if (song[songCount] != note.none)
+                if (songNotes[songCount] != note.none)
                 {
                     GameObject _Note = Instantiate(notes) as GameObject;
                     _Note.transform.SetParent(canvas.transform, false);
-                    _Note.GetComponent<Note>().myNote = song[songCount];
+                    _Note.GetComponent<Note>().myNote = songNotes[songCount];
                     if (oneLine == false)
                     {
                         MoveNote(_Note);
@@ -65,15 +78,17 @@ public class GameController : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
-        playSong();
-        CheckSongCount();
+	void Update() {
+        if(hasSong) {
+            playSong();
+            CheckSongCount();
+        }
 	}
 
     //Sends the not to its starting Location
     void MoveNote(GameObject noteToMove)
     {
-        switch(song[songCount])
+        switch(songNotes[songCount])
         {
             case note.A:
                 noteToMove.transform.position = SpawnLocation[0].transform.position;
