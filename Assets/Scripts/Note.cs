@@ -10,6 +10,8 @@ public class Note : MonoBehaviour {
     public note myNote = note.none;
     public float speed = 50.0f;
 
+    public ParticleSystem pSystem;
+
 	// Use this for initialization
 	void Start () {
         myTransform = this.gameObject.GetComponent<RectTransform>();
@@ -26,6 +28,8 @@ public class Note : MonoBehaviour {
     void OnCollisionEnter2D()
     {
         audioManager.PlayNote(myNote);
+        ParticleSystem _PSystem = Instantiate(pSystem,myTransform.position,Quaternion.identity) as ParticleSystem;
+        _PSystem.Play();
         Destroy(this.gameObject);
     }
 }

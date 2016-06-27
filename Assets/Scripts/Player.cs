@@ -11,6 +11,8 @@ public enum Control
 
 public class Player : MonoBehaviour {
 
+    public ParticleSystem particals;
+
     private RectTransform myTransform;
 
     public float moveSpeed = 0.1f;
@@ -91,6 +93,12 @@ public class Player : MonoBehaviour {
                 break;
         }
 	}
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        FireParticals();
+    }
+
     //Handles LeftRight Controls
     void LeftRightControls()
     {
@@ -258,5 +266,11 @@ public class Player : MonoBehaviour {
 
         myTransform.localPosition = tempPos;
         
+    }
+
+    //fires off partical system
+    void FireParticals()
+    {
+        particals.Play();
     }
 }
