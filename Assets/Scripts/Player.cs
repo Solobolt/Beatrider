@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
     private Vector3 targetPos = new Vector3(0, 0, 0);
     private Vector3 lastTarget = new Vector3(0, 0, 0);
     private float distnace;
-    private float moveTime = 0.5f;
+    private float moveTime = 0.1f;
     private float direction = 1f;
 
     #region SixKeysValues
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour {
 
     #region LeftRightValues
 
-    private Vector3[] LRarray;
+    private Vector3[] LRarray = new Vector3[9];
     private int LRPos = 0;
     #endregion
 
@@ -104,14 +104,24 @@ public class Player : MonoBehaviour {
             LRPos++;
         }
 
+        if (Input.GetKeyDown("left"))
+        {
+            LRPos-= 3;
+        }
+
+        if (Input.GetKeyDown("right"))
+        {
+            LRPos+= 3;
+        }
+
         if (LRPos >= (LRarray.Length))
         {
-            LRPos = 0;
+            LRPos -= LRarray.Length;
         }
 
         if(LRPos < 0)
         {
-            LRPos = LRarray.Length - 1;
+            LRPos += LRarray.Length;
         }
 
         targetPos = LRarray[LRPos];
