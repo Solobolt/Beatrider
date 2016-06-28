@@ -6,7 +6,8 @@ public enum Control
 {
     PianoKeys,
     SixKeys,
-    LeftRight
+    LeftRight,
+    LR3Lines
 }
 
 public class Player : MonoBehaviour {
@@ -46,7 +47,7 @@ public class Player : MonoBehaviour {
     #region LeftRightValues
 
     private Vector3[] LRarray = new Vector3[9];
-    private int LRPos = 0;
+    private int LRPos = 4;
     #endregion
 
     // Use this for initialization
@@ -96,6 +97,11 @@ public class Player : MonoBehaviour {
                 MovePlayer();
                 break;
 
+            case Control.LR3Lines:
+                ThreeLineLR();
+                MovePlayer();
+                break;
+
             default:
                 PianoKeys();
                 MovePlayer();
@@ -111,6 +117,7 @@ public class Player : MonoBehaviour {
     //Handles LeftRight Controls
     void LeftRightControls()
     {
+        /*
         if (Input.GetKeyDown("a"))
         {
             LRPos--;
@@ -120,6 +127,7 @@ public class Player : MonoBehaviour {
         {
             LRPos++;
         }
+        */
 
         if (Input.GetKeyDown("left"))
         {
@@ -281,5 +289,31 @@ public class Player : MonoBehaviour {
     void FireParticals()
     {
         particals.Play();
+    }
+
+    //Handles Piano Style Controls
+    void ThreeLineLR()
+    {
+        if (Input.GetKeyDown("left"))
+        {
+            LRPos -= 3;
+        }
+
+        if (Input.GetKeyDown("right"))
+        {
+            LRPos += 3;
+        }
+
+        if (LRPos >= (LRarray.Length))
+        {
+            LRPos -= LRarray.Length;
+        }
+
+        if (LRPos < 0)
+        {
+            LRPos += LRarray.Length;
+        }
+
+        targetPos = LRarray[LRPos];
     }
 }
