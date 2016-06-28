@@ -16,7 +16,7 @@ public class Player : MonoBehaviour {
 
     private RectTransform myTransform;
 
-    public float moveSpeed = 0.1f;
+    public float moveSpeed = 0.25f;
     public Control controlType = Control.PianoKeys;
 
     private Vector3 targetPos = new Vector3(0, 0, 0);
@@ -131,13 +131,20 @@ public class Player : MonoBehaviour {
 
         if (Input.GetKeyDown("left"))
         {
-            LRPos-= 3;
+            LRPos -= 3;
         }
 
         if (Input.GetKeyDown("right"))
         {
-            LRPos+= 3;
+            LRPos += 3;
         }
+
+        /*
+        if (Input.GetKeyDown("up") || Input.GetKeyDown("down"))
+        {
+            LRPos = 4;
+        }
+        */ 
 
         if (LRPos >= (LRarray.Length))
         {
