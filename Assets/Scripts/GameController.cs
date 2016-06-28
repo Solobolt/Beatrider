@@ -21,12 +21,20 @@ public enum note
     end
 }
 
+public enum NumLines
+{
+    Lines7,
+    Lines3
+}
+
 public class GameController : SingletonBehaviour<GameController> {
 
     public Transform[] SpawnLocation;
 
     public List<note> songNotes = new List<note>();
     public bool hasSong = false;
+
+    public NumLines numLines = NumLines.Lines3;
 
     public GameObject notes;
     public GameObject canvas;
@@ -99,10 +107,10 @@ public class GameController : SingletonBehaviour<GameController> {
         }
 	}
 
-    //Sends the not to its starting Location
-    void MoveNote(GameObject noteToMove)
+    //Moves the notes between 7 different lines
+    void Moves7Lines(GameObject noteToMove)
     {
-        switch(songNotes[songCount])
+        switch (songNotes[songCount])
         {
             case note.A:
                 noteToMove.transform.position = SpawnLocation[0].transform.position;
@@ -153,6 +161,79 @@ public class GameController : SingletonBehaviour<GameController> {
                 break;
 
             default:
+                break;
+        }
+    }
+
+    //Moves the notes between 3 different lines
+    void Moves3Lines(GameObject noteToMove)
+    {
+        switch (songNotes[songCount])
+        {
+            case note.A:
+                noteToMove.transform.position = SpawnLocation[0].transform.position;
+                break;
+
+            case note.aSharp:
+                noteToMove.transform.position = SpawnLocation[0].transform.position;
+                break;
+
+            case note.B:
+                noteToMove.transform.position = SpawnLocation[0].transform.position;
+                break;
+
+            case note.C:
+                noteToMove.transform.position = SpawnLocation[0].transform.position;
+                break;
+
+            case note.cSharp:
+                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                break;
+
+            case note.D:
+                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                break;
+
+            case note.dSharp:
+                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                break;
+
+            case note.E:
+                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                break;
+
+            case note.F:
+                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                break;
+
+            case note.fSharp:
+                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                break;
+
+            case note.G:
+                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                break;
+
+            case note.gSharp:
+                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    //Sends the not to its starting Location
+    void MoveNote(GameObject noteToMove)
+    {
+        switch(numLines)
+        {
+            case NumLines.Lines3:
+                Moves3Lines(noteToMove);
+                break;
+
+            default:
+                Moves7Lines(noteToMove);
                 break;
         }
     }
