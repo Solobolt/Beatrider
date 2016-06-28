@@ -5,7 +5,20 @@ using System.Collections.Generic;
 
 public enum note
 {
-    none,A,B,C,D,E,F,G,end
+    none,
+    A,
+    aSharp,
+    B,
+    C,
+    cSharp,
+    D,
+    dSharp,
+    E,
+    F,
+    fSharp,
+    G,
+    gSharp,
+    end
 }
 
 public class GameController : SingletonBehaviour<GameController> {
@@ -95,6 +108,10 @@ public class GameController : SingletonBehaviour<GameController> {
                 noteToMove.transform.position = SpawnLocation[0].transform.position;
                 break;
 
+            case note.aSharp:
+                noteToMove.transform.position = SpawnLocation[0].transform.position;
+                break;
+
             case note.B:
                 noteToMove.transform.position = SpawnLocation[1].transform.position;
                 break;
@@ -103,7 +120,15 @@ public class GameController : SingletonBehaviour<GameController> {
                 noteToMove.transform.position = SpawnLocation[2].transform.position;
                 break;
 
+            case note.cSharp:
+                noteToMove.transform.position = SpawnLocation[2].transform.position;
+                break;
+
             case note.D:
+                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                break;
+
+            case note.dSharp:
                 noteToMove.transform.position = SpawnLocation[3].transform.position;
                 break;
 
@@ -115,7 +140,15 @@ public class GameController : SingletonBehaviour<GameController> {
                 noteToMove.transform.position = SpawnLocation[5].transform.position;
                 break;
 
+            case note.fSharp:
+                noteToMove.transform.position = SpawnLocation[5].transform.position;
+                break;
+
             case note.G:
+                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                break;
+
+            case note.gSharp:
                 noteToMove.transform.position = SpawnLocation[6].transform.position;
                 break;
 
