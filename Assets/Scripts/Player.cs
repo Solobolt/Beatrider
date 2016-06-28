@@ -18,7 +18,6 @@ public class Player : MonoBehaviour {
     public float moveSpeed = 0.1f;
     public Control controlType = Control.PianoKeys;
 
-    
     private Vector3 targetPos = new Vector3(0, 0, 0);
     private Vector3 lastTarget = new Vector3(0, 0, 0);
     private float distnace;
@@ -33,15 +32,15 @@ public class Player : MonoBehaviour {
     #endregion
 
     #region LocationValues
-    private Vector3 posL3 = new Vector3(-250, 0, 0);
-    private Vector3 posL2 = new Vector3(-200, 0, 0);
-    private Vector3 posL1 = new Vector3(-150, 0, 0);
-    private Vector3 posL = new Vector3(-50, 0, 0);
-    private Vector3 pos0 = new Vector3(0, 0, 0);
-    private Vector3 posR = new Vector3(50, 0, 0);
-    private Vector3 posR1 = new Vector3(150, 0, 0);
-    private Vector3 posR2 = new Vector3(200, 0, 0);
-    private Vector3 posR3 = new Vector3(250, 0, 0);
+    private Vector3 posL3;
+    private Vector3 posL2;
+    private Vector3 posL1;
+    private Vector3 posL;
+    private Vector3 pos0;
+    private Vector3 posR;
+    private Vector3 posR1;
+    private Vector3 posR2;
+    private Vector3 posR3;
     #endregion
 
     #region LeftRightValues
@@ -53,6 +52,16 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         myTransform = this.gameObject.GetComponent<RectTransform>();
+
+        posL3 = new Vector3(-250, 0, myTransform.position.z);
+        posL2 = new Vector3(-200, 0, myTransform.position.z);
+        posL1 = new Vector3(-150, 0, myTransform.position.z);
+        posL = new Vector3(-50, 0, myTransform.position.z);
+        pos0 = new Vector3(0, 0, myTransform.position.z);
+        posR = new Vector3(50, 0, myTransform.position.z);
+        posR1 = new Vector3(150, 0, myTransform.position.z);
+        posR2 = new Vector3(200, 0, myTransform.position.z);
+        posR3 = new Vector3(250, 0, myTransform.position.z);
 
         if(controlType == Control.LeftRight)
         {
@@ -256,12 +265,12 @@ public class Player : MonoBehaviour {
 
         if(direction == 1 && tempPos.x > targetPos.x)
         {
-            tempPos = targetPos;
+            tempPos.x = targetPos.x;
         }
 
         if (direction == (-1) && tempPos.x < targetPos.x)
         {
-            tempPos = targetPos;
+            tempPos.x = targetPos.x;
         }
 
         myTransform.localPosition = tempPos;

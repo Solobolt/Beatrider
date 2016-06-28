@@ -69,6 +69,7 @@ public class GameController : SingletonBehaviour<GameController> {
                     {
                         MoveNote(_Note);
                     }
+
                     Destroy(_Note, 6);
                 }
                 songCount++;
