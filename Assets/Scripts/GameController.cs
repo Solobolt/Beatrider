@@ -107,64 +107,6 @@ public class GameController : SingletonBehaviour<GameController> {
         }
 	}
 
-    //Moves the notes between 7 different lines
-    void Moves7Lines(GameObject noteToMove)
-    {
-        switch (songNotes[songCount])
-        {
-            case note.A:
-                noteToMove.transform.position = SpawnLocation[0].transform.position;
-                break;
-
-            case note.aSharp:
-                noteToMove.transform.position = SpawnLocation[0].transform.position;
-                break;
-
-            case note.B:
-                noteToMove.transform.position = SpawnLocation[1].transform.position;
-                break;
-
-            case note.C:
-                noteToMove.transform.position = SpawnLocation[2].transform.position;
-                break;
-
-            case note.cSharp:
-                noteToMove.transform.position = SpawnLocation[2].transform.position;
-                break;
-
-            case note.D:
-                noteToMove.transform.position = SpawnLocation[3].transform.position;
-                break;
-
-            case note.dSharp:
-                noteToMove.transform.position = SpawnLocation[3].transform.position;
-                break;
-
-            case note.E:
-                noteToMove.transform.position = SpawnLocation[4].transform.position;
-                break;
-
-            case note.F:
-                noteToMove.transform.position = SpawnLocation[5].transform.position;
-                break;
-
-            case note.fSharp:
-                noteToMove.transform.position = SpawnLocation[5].transform.position;
-                break;
-
-            case note.G:
-                noteToMove.transform.position = SpawnLocation[6].transform.position;
-                break;
-
-            case note.gSharp:
-                noteToMove.transform.position = SpawnLocation[6].transform.position;
-                break;
-
-            default:
-                break;
-        }
-    }
-
     //Moves the notes between 3 different lines
     void Moves3Lines(GameObject noteToMove)
     {
@@ -187,35 +129,35 @@ public class GameController : SingletonBehaviour<GameController> {
                 break;
 
             case note.cSharp:
-                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                noteToMove.transform.position = SpawnLocation[1].transform.position;
                 break;
 
             case note.D:
-                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                noteToMove.transform.position = SpawnLocation[1].transform.position;
                 break;
 
             case note.dSharp:
-                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                noteToMove.transform.position = SpawnLocation[1].transform.position;
                 break;
 
             case note.E:
-                noteToMove.transform.position = SpawnLocation[3].transform.position;
+                noteToMove.transform.position = SpawnLocation[1].transform.position;
                 break;
 
             case note.F:
-                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                noteToMove.transform.position = SpawnLocation[2].transform.position;
                 break;
 
             case note.fSharp:
-                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                noteToMove.transform.position = SpawnLocation[2].transform.position;
                 break;
 
             case note.G:
-                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                noteToMove.transform.position = SpawnLocation[2].transform.position;
                 break;
 
             case note.gSharp:
-                noteToMove.transform.position = SpawnLocation[6].transform.position;
+                noteToMove.transform.position = SpawnLocation[2].transform.position;
                 break;
 
             default:
@@ -233,7 +175,7 @@ public class GameController : SingletonBehaviour<GameController> {
                 break;
 
             default:
-                Moves7Lines(noteToMove);
+                Moves3Lines(noteToMove);
                 break;
         }
     }
