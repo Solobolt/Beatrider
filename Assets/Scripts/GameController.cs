@@ -27,6 +27,7 @@ public enum NumLines
     Lines3
 }
 
+
 public class GameController : SingletonBehaviour<GameController> {
 
     public Transform[] SpawnLocation;
@@ -49,7 +50,7 @@ public class GameController : SingletonBehaviour<GameController> {
 
     //Also delete this line when you have a script on a song selection screen, again, this was just for testing the 1 song.
     public TextAsset maryHadALittleLamb;
-
+    
 	void Start () {
         //AFTER YOU HAVE CHOSEN A SONG IN THE 'SONG SELECTION SCENE', YOU WILL CALL:
         //song = whateverTheChosenSongWasFromTheSongSelectionMenu //make sure the songs are TextAssets so it matches the 'song' variable
@@ -58,7 +59,7 @@ public class GameController : SingletonBehaviour<GameController> {
         //Delete below when you ahve more tahn one CSV song, this was just for testing the 1.
         song = maryHadALittleLamb;
         ReadLevel.Instance.LoadInCSV(maryHadALittleLamb);
-	}
+    }
 
     //Restart song if the cord count stops
     void CheckSongCount()
@@ -113,51 +114,24 @@ public class GameController : SingletonBehaviour<GameController> {
         switch (songNotes[songCount])
         {
             case note.A:
-                noteToMove.transform.position = SpawnLocation[0].transform.position;
-                break;
-
             case note.aSharp:
-                noteToMove.transform.position = SpawnLocation[0].transform.position;
-                break;
-
             case note.B:
-                noteToMove.transform.position = SpawnLocation[0].transform.position;
-                break;
-
             case note.C:
-                noteToMove.transform.position = SpawnLocation[0].transform.position;
+                noteToMove.transform.SetParent(SpawnLocation[0].transform, false);
                 break;
 
             case note.cSharp:
-                noteToMove.transform.position = SpawnLocation[1].transform.position;
-                break;
-
             case note.D:
-                noteToMove.transform.position = SpawnLocation[1].transform.position;
-                break;
-
             case note.dSharp:
-                noteToMove.transform.position = SpawnLocation[1].transform.position;
-                break;
-
             case note.E:
-                noteToMove.transform.position = SpawnLocation[1].transform.position;
+                noteToMove.transform.SetParent(SpawnLocation[1].transform, false);
                 break;
 
             case note.F:
-                noteToMove.transform.position = SpawnLocation[2].transform.position;
-                break;
-
             case note.fSharp:
-                noteToMove.transform.position = SpawnLocation[2].transform.position;
-                break;
-
             case note.G:
-                noteToMove.transform.position = SpawnLocation[2].transform.position;
-                break;
-
             case note.gSharp:
-                noteToMove.transform.position = SpawnLocation[2].transform.position;
+                noteToMove.transform.SetParent(SpawnLocation[2].transform, false);
                 break;
 
             default:

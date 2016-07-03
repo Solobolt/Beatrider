@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 
     private RectTransform myTransform;
 
-    public float moveSpeed = 0.25f;
+    //public float moveSpeed = 0.25f;
     public Control controlType = Control.LeftRight;
 
     private Vector3 targetPos = new Vector3(0, 0, 0);
@@ -34,6 +34,12 @@ public class Player : MonoBehaviour {
     private int LRPos = 1;
     #endregion
 
+    #region Daniel's Variables
+    public GameObject leftLane, middleLane, rightLane, intermediatoryLane;
+    public GameObject Lane1, Lane2, Lane3;
+    public float rowDifference = 200.0f;
+    #endregion
+
     // Use this for initialization
     void Start () {
         myTransform = this.gameObject.GetComponent<RectTransform>();
@@ -45,21 +51,27 @@ public class Player : MonoBehaviour {
         LRarray[0] = pos1;
         LRarray[1] = pos2;
         LRarray[2] = pos3;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+        #region Daniel's Start
+        GameController.Instance.SpawnLocation[0].SetParent(Lane1.transform, false);
+        GameController.Instance.SpawnLocation[1].SetParent(Lane2.transform, false);
+        GameController.Instance.SpawnLocation[2].SetParent(Lane3.transform, false);
+        #endregion
+    }
+
+    // Update is called once per frame
+    void Update () {
         switch(controlType)
         {
 
             case Control.LeftRight:
                 LeftRightControls();
-                MovePlayer();
+                //MovePlayer();
                 break;
 
             default:
                 LeftRightControls();
-                MovePlayer();
+                //MovePlayer();
                 break;
         }
 	}
@@ -73,7 +85,7 @@ public class Player : MonoBehaviour {
     void LeftRightControls()
     {
 
-        if (Input.GetKeyDown("left"))
+        /*if (Input.GetKeyDown("left"))
         {
             LRPos --;
         }
@@ -93,49 +105,69 @@ public class Player : MonoBehaviour {
             LRPos += LRarray.Length;
         }
 
-        targetPos = LRarray[LRPos];
+        targetPos = LRarray[LRPos];*/
+
+
+
+        if(Input.GetKeyDown("left")) {
+            leftLane.transform.transform.GetChild(0).transform.SetParent(intermediatoryLane.transform, true);
+            middleLane.transform.transform.GetChild(0).transform.SetParent(leftLane.transform, true);
+            intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(middleLane.transform, true);
+
+            leftLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(leftLane.transform.GetChild(0).transform.localPosition, leftLane.transform.localPosition, rowDifference);
+            middleLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(middleLane.transform.GetChild(0).transform.localPosition, middleLane.transform.localPosition, rowDifference);
+        }
+
+        if(Input.GetKeyDown("right")) {
+            rightLane.transform.transform.GetChild(0).transform.SetParent(intermediatoryLane.transform, true);
+            middleLane.transform.transform.GetChild(0).transform.SetParent(rightLane.transform, true);
+            intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(middleLane.transform, true);
+
+            rightLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(rightLane.transform.GetChild(0).transform.localPosition, rightLane.transform.localPosition, rowDifference);
+            middleLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(middleLane.transform.GetChild(0).transform.localPosition, middleLane.transform.localPosition, rowDifference);
+        }
     }
 
-    //moves the player to the desired loaction
-    void MovePlayer()
-    {
-        //Grabs current Position
-        Vector3 tempPos = myTransform.localPosition;
+    /* //moves the player to the desired loaction
+     void MovePlayer()
+     {
+         //Grabs current Position
+         Vector3 tempPos = myTransform.localPosition;
 
-        if(targetPos != lastTarget)
-        {
-            Vector3 holdPos = tempPos;
+         if(targetPos != lastTarget)
+         {
+             Vector3 holdPos = tempPos;
 
-            distnace = Vector3.Distance(targetPos,holdPos);
-            if(targetPos.x > tempPos.x)
-            {
-                direction = 1;
-            }
-            else
-            {
-                direction = -1;
-            }
+             distnace = Vector3.Distance(targetPos,holdPos);
+             if(targetPos.x > tempPos.x)
+             {
+                 direction = 1;
+             }
+             else
+             {
+                 direction = -1;
+             }
 
-            lastTarget = targetPos;
-        }
+             lastTarget = targetPos;
+         }
 
-        float step = (distnace / moveTime) * direction;
+         float step = (distnace / moveTime) * direction;
 
-        tempPos.x += (step * Time.deltaTime);
+         tempPos.x += (step * Time.deltaTime);
 
-        if(direction == 1 && tempPos.x > targetPos.x)
-        {
-            tempPos.x = targetPos.x;
-        }
+         if(direction == 1 && tempPos.x > targetPos.x)
+         {
+             tempPos.x = targetPos.x;
+         }
 
-        if (direction == (-1) && tempPos.x < targetPos.x)
-        {
-            tempPos.x = targetPos.x;
-        }
+         if (direction == (-1) && tempPos.x < targetPos.x)
+         {
+             tempPos.x = targetPos.x;
+         }
 
-        myTransform.localPosition = tempPos;
-        
-    }
+         myTransform.localPosition = tempPos;
+
+     }*/
 
     //fires off partical system
     void FireParticals()
