@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -39,12 +40,16 @@ public class GameController : SingletonBehaviour<GameController> {
 
     public GameObject notes;
     public GameObject canvas;
-    private int songCount = 0;
+    private int noteCount = 0;
     public bool oneLine = false;
 
     [Range (10,1000)]
     public float tempo = 180.0f;
     private float timer = 0.0f;
+
+    private float sceneChangeDelay = 3.0f;
+    private float sceneChangeTimer = 0f;
+    private bool isSceneChanging = false;
 
     TextAsset song;
 
@@ -52,6 +57,7 @@ public class GameController : SingletonBehaviour<GameController> {
     public TextAsset maryHadALittleLamb;
     public TextAsset[] songSheets;
     private int sheetNum = 0;
+    public BackgroundColor bcColor;
     
 	void Start () {
         //AFTER YOU HAVE CHOSEN A SONG IN THE 'SONG SELECTION SCENE', YOU WILL CALL:
@@ -61,14 +67,16 @@ public class GameController : SingletonBehaviour<GameController> {
         //Delete below when you ahve more tahn one CSV song, this was just for testing the 1.
         song = songSheets[0];
         ReadLevel.Instance.LoadInCSV(song);
+
+        bcColor.changeColour(BackColor.Anxious);
     }
 
     //Restart song if the cord count stops
     void CheckSongCount()
     {
-        if (songCount > songNotes.Count -1)
+        if (noteCount > songNotes.Count -1)
         {
-            songCount = 0;
+            noteCount = 0;
         }
     }
 
@@ -78,43 +86,87 @@ public class GameController : SingletonBehaviour<GameController> {
 
         if (tempo < 1800.0f)
         {
-            float tempoConv = 1.0f / (tempo / 60.0f * 4.0f);
+            float tempoConv = 1.0f / ((tempo / 60.0f) * 4.0f);
 
             if (timer >= tempoConv)
             {
                 timer = 0;
 
-                print(songNotes[songCount]);
-
-                if (songNotes[songCount] != note.none)
+                if (songNotes[noteCount] != note.none)
                 {
                     //ends song and starts a new one
-                    if (songNotes[songCount] == note.end)
+                    if (songNotes[noteCount] == note.end)
                     {
                         sheetNum++;
-                        song = songSheets[sheetNum];
-                        ReadLevel.Instance.LoadInCSV(song);
-                        if(sheetNum >= songSheets.Length)
+                        if (sheetNum >= songSheets.Length)
                         {
                             //END GAME SCREEN HERE
-                            Application.Quit();
+                            isSceneChanging = true;
                         }
+                        else
+                        {
+                            //Sets up the next song
+                            song = songSheets[sheetNum];
+                            ReadLevel.Instance.LoadInCSV(song);
+
+                            switch(sheetNum)
+                            {
+                                case 0:
+                                    bcColor.changeColour(BackColor.Anxious);
+                                    break;
+
+                                case 1:
+                                    bcColor.changeColour(BackColor.Calm);
+                                    break;
+
+                                case 2:
+                                    bcColor.changeColour(BackColor.Happy);
+                                    break;
+
+                                case 3:
+                                    bcColor.changeColour(BackColor.Depressed);
+                                    break;
+
+                                default:
+                                    bcColor.changeColour(BackColor.Calm);
+                                    break;
+                            }
+                        }
+                        
                     }
-
-                    GameObject _Note = Instantiate(notes) as GameObject;
-                    _Note.transform.SetParent(canvas.transform, false);
-                    _Note.GetComponent<Note>().myNote = songNotes[songCount];
-
-                    if (oneLine == false)
+                    else
                     {
-                        MoveNote(_Note);
-                    }
+                        //Spawns the desired note
+                        GameObject newNote = Instantiate(notes) as GameObject;
+                        newNote.transform.SetParent(canvas.transform, false);
+                        newNote.GetComponent<Note>().myNote = songNotes[noteCount];
 
-                    Destroy(_Note, 6);
+                        //Checks if the notes must all be spawned on the same lines or not
+                        if (oneLine == false)
+                        {
+                            MoveNote(newNote);
+                        }
+
+                        //Destroys the note after 6 seconds, (To keep hierachy clean)
+                        Destroy(newNote, 6);
+                    }
                 }
-                songCount++;
+                noteCount++;
             }
             timer += Time.deltaTime;
+        }
+    }
+
+    //Chechs for scenechange
+    void CheckSceneChange()
+    {
+        if(isSceneChanging == true)
+        {
+            if(sceneChangeTimer >= sceneChangeDelay)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+            sceneChangeTimer += Time.deltaTime;
         }
     }
 
@@ -124,12 +176,13 @@ public class GameController : SingletonBehaviour<GameController> {
             playSong();
             CheckSongCount();
         }
+        CheckSceneChange();
 	}
 
     //Moves the notes between 3 different lines
     void Moves3Lines(GameObject noteToMove)
     {
-        switch (songNotes[songCount])
+        switch (songNotes[noteCount])
         {
             case note.A:
             case note.aSharp:

@@ -109,22 +109,36 @@ public class Player : MonoBehaviour {
 
 
 
-        if(Input.GetKeyDown("left")) {
+        if(Input.GetKeyDown("right")) {
+            //Left to dummy
             leftLane.transform.transform.GetChild(0).transform.SetParent(intermediatoryLane.transform, true);
+            //Mid to left
             middleLane.transform.transform.GetChild(0).transform.SetParent(leftLane.transform, true);
-            intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(middleLane.transform, true);
+            //right to mid
+            rightLane.transform.transform.GetChild(0).transform.SetParent(middleLane.transform, true);
+            //Dummy to right
+            intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(rightLane.transform, true);
 
+            //Moves to position (Must go LMR)
             leftLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(leftLane.transform.GetChild(0).transform.localPosition, leftLane.transform.localPosition, rowDifference);
             middleLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(middleLane.transform.GetChild(0).transform.localPosition, middleLane.transform.localPosition, rowDifference);
+            rightLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(rightLane.transform.GetChild(0).transform.localPosition, rightLane.transform.localPosition, rowDifference * 2f);
         }
 
-        if(Input.GetKeyDown("right")) {
+        if(Input.GetKeyDown("left")) {
+            //Right to dummy
             rightLane.transform.transform.GetChild(0).transform.SetParent(intermediatoryLane.transform, true);
+            //Mid to right
             middleLane.transform.transform.GetChild(0).transform.SetParent(rightLane.transform, true);
-            intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(middleLane.transform, true);
+            //Left to mid
+            leftLane.transform.transform.GetChild(0).transform.SetParent(middleLane.transform, true);
+            //Dummy to left
+            intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(leftLane.transform, true);
 
+            //Moves to position(Must go RML)
             rightLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(rightLane.transform.GetChild(0).transform.localPosition, rightLane.transform.localPosition, rowDifference);
             middleLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(middleLane.transform.GetChild(0).transform.localPosition, middleLane.transform.localPosition, rowDifference);
+            leftLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(leftLane.transform.GetChild(0).transform.localPosition, leftLane.transform.localPosition, rowDifference*2f);
         }
     }
 
