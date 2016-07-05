@@ -52,9 +52,9 @@ public class BackgroundColor : MonoBehaviour {
             case BackColor.Happy:
                 background.color = new Vector4
                     (
-                    5f / 255.0f,
-                    5f / 255.0f,
-                    5f / 255.0f,
+                    145f / 255.0f,
+                    184f / 255.0f,
+                    82f / 255.0f,
                     255 / 255.0f
                     );
                 break;

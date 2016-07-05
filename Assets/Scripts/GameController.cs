@@ -31,6 +31,8 @@ public enum NumLines
 
 public class GameController : SingletonBehaviour<GameController> {
 
+    public AudioSource audioController;
+
     public Transform[] SpawnLocation;
 
     public List<note> songNotes = new List<note>();
@@ -47,7 +49,7 @@ public class GameController : SingletonBehaviour<GameController> {
     public float tempo = 180.0f;
     private float timer = 0.0f;
 
-    private float sceneChangeDelay = 3.0f;
+    private float sceneChangeDelay = 1.0f;
     private float sceneChangeTimer = 0f;
     private bool isSceneChanging = false;
 
@@ -68,7 +70,9 @@ public class GameController : SingletonBehaviour<GameController> {
         song = songSheets[0];
         ReadLevel.Instance.LoadInCSV(song);
 
-        bcColor.changeColour(BackColor.Anxious);
+        bcColor.changeColour(BackColor.Happy);
+        tempo = 30;
+        audioController.pitch = 0.8f;
     }
 
     //Restart song if the cord count stops
@@ -98,6 +102,7 @@ public class GameController : SingletonBehaviour<GameController> {
                     if (songNotes[noteCount] == note.end)
                     {
                         sheetNum++;
+                        print(sheetNum);
                         if (sheetNum >= songSheets.Length)
                         {
                             //END GAME SCREEN HERE
@@ -112,23 +117,33 @@ public class GameController : SingletonBehaviour<GameController> {
                             switch(sheetNum)
                             {
                                 case 0:
-                                    bcColor.changeColour(BackColor.Anxious);
+                                    bcColor.changeColour(BackColor.Happy);
+                                    tempo = 30;
+                                    audioController.pitch = 0.8f;
                                     break;
 
                                 case 1:
-                                    bcColor.changeColour(BackColor.Calm);
+                                    bcColor.changeColour(BackColor.Depressed);
+                                    tempo = 35;
+                                    audioController.pitch = 0.8f;
                                     break;
 
                                 case 2:
-                                    bcColor.changeColour(BackColor.Happy);
+                                    bcColor.changeColour(BackColor.Anxious);
+                                    tempo = 35;
+                                    audioController.pitch = 0.7f;
                                     break;
 
                                 case 3:
-                                    bcColor.changeColour(BackColor.Depressed);
+                                    bcColor.changeColour(BackColor.Calm);
+                                    tempo = 40;
+                                    audioController.pitch = 0.8f;
                                     break;
 
                                 default:
                                     bcColor.changeColour(BackColor.Calm);
+                                    tempo = 40;
+                                    audioController.pitch = 0.8f;
                                     break;
                             }
                         }
