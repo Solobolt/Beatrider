@@ -94,6 +94,11 @@ public class GameController : SingletonBehaviour<GameController> {
                         sheetNum++;
                         song = songSheets[sheetNum];
                         ReadLevel.Instance.LoadInCSV(song);
+                        if(sheetNum >= songSheets.Length)
+                        {
+                            //END GAME SCREEN HERE
+                            Application.Quit();
+                        }
                     }
 
                     GameObject _Note = Instantiate(notes) as GameObject;
