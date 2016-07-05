@@ -50,6 +50,8 @@ public class GameController : SingletonBehaviour<GameController> {
 
     //Also delete this line when you have a script on a song selection screen, again, this was just for testing the 1 song.
     public TextAsset maryHadALittleLamb;
+    public TextAsset[] songSheets;
+    private int sheetNum = 0;
     
 	void Start () {
         //AFTER YOU HAVE CHOSEN A SONG IN THE 'SONG SELECTION SCENE', YOU WILL CALL:
@@ -57,8 +59,8 @@ public class GameController : SingletonBehaviour<GameController> {
         //ReadLevel.Instance.LoadInCSV(song);
 
         //Delete below when you ahve more tahn one CSV song, this was just for testing the 1.
-        song = maryHadALittleLamb;
-        ReadLevel.Instance.LoadInCSV(maryHadALittleLamb);
+        song = songSheets[0];
+        ReadLevel.Instance.LoadInCSV(song);
     }
 
     //Restart song if the cord count stops
@@ -82,11 +84,22 @@ public class GameController : SingletonBehaviour<GameController> {
             {
                 timer = 0;
 
+                print(songNotes[songCount]);
+
                 if (songNotes[songCount] != note.none)
                 {
+                    //ends song and starts a new one
+                    if (songNotes[songCount] == note.end)
+                    {
+                        sheetNum++;
+                        song = songSheets[sheetNum];
+                        ReadLevel.Instance.LoadInCSV(song);
+                    }
+
                     GameObject _Note = Instantiate(notes) as GameObject;
                     _Note.transform.SetParent(canvas.transform, false);
                     _Note.GetComponent<Note>().myNote = songNotes[songCount];
+
                     if (oneLine == false)
                     {
                         MoveNote(_Note);
