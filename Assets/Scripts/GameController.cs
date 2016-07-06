@@ -31,6 +31,7 @@ public enum NumLines
 
 public class GameController : SingletonBehaviour<GameController> {
 
+    public bool canPlay = false;
     public AudioSource audioController;
 
     public Transform[] SpawnLocation;
@@ -187,11 +188,16 @@ public class GameController : SingletonBehaviour<GameController> {
 
 	// Update is called once per frame
 	void Update() {
-        if(hasSong) {
-            playSong();
-            CheckSongCount();
+
+        if (canPlay == true)
+        {
+            if (hasSong)
+            {
+                playSong();
+                CheckSongCount();
+            }
+            CheckSceneChange();
         }
-        CheckSceneChange();
 	}
 
     //Moves the notes between 3 different lines

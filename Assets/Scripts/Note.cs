@@ -11,6 +11,7 @@ public class Note : MonoBehaviour {
     public float speed = 50.0f;
 
     public ParticleSystem pSystem;
+    public ParticleSystem badPSystem;
 
 	// Use this for initialization
 	void Start () {
@@ -25,11 +26,22 @@ public class Note : MonoBehaviour {
         myTransform.localPosition = tempPos;
 	}
 
-    void OnCollisionEnter2D()
+    void OnCollisionEnter2D(Collision2D coll)
     {
-        audioManager.PlayNote(myNote);
-        ParticleSystem _PSystem = Instantiate(pSystem,myTransform.position,Quaternion.identity) as ParticleSystem;
-        _PSystem.Play();
+        if(coll.gameObject.tag=="Player")
+        {
+            audioManager.PlayNote(myNote);
+            ParticleSystem _PSystem = Instantiate(pSystem, myTransform.position, Quaternion.identity) as ParticleSystem;
+            _PSystem.Play();
+        }
+
+        if (coll.gameObject.tag != "Player")
+        {
+            //audioManager.PlayNote(myNote);
+            ParticleSystem _PSystem = Instantiate(badPSystem, myTransform.position, Quaternion.identity) as ParticleSystem;
+            _PSystem.Play();
+        }
+        
         Destroy(this.gameObject);
     }
 }

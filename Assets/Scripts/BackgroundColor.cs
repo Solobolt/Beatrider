@@ -42,9 +42,9 @@ public class BackgroundColor : MonoBehaviour {
             case BackColor.Depressed:
                 background.color = new Vector4
                     (
-                    5f / 255.0f,
-                    5f / 255.0f,
-                    5f / 255.0f,
+                    10f / 255.0f,
+                    10f / 255.0f,
+                    50f / 255.0f,
                     255 / 255.0f
                     );
                 break;
@@ -67,7 +67,7 @@ public class BackgroundColor : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        changeColour(BackColor.Calm);
+       // changeColour(BackColor.Calm);
 	}
 	
 	// Update is called once per frame
