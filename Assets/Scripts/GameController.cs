@@ -56,7 +56,7 @@ public class GameController : SingletonBehaviour<GameController> {
     public float tempo = 180.0f;
     private float timer = 0.0f;
 
-    private float sceneChangeDelay = 1.0f;
+    private float sceneChangeDelay = 0f;
     private float sceneChangeTimer = 0f;
     private bool isSceneChanging = false;
 
