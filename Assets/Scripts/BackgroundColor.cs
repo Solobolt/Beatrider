@@ -80,7 +80,7 @@ public class BackgroundColor : MonoBehaviour {
 	void Update () {
 	
 		if (background.color != temp) { 
-			background.color = Vector4.Lerp (background.color, temp, 0.1f);
+			background.color = Vector4.Lerp (background.color, temp, 0.01f);
 		}
 
 

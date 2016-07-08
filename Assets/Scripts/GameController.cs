@@ -31,6 +31,12 @@ public enum NumLines
 
 public class GameController : SingletonBehaviour<GameController> {
 
+
+	//Tobys song transition things.............................................
+	public float transitionTimer;
+	public GameObject button1;
+	public GameObject button2;
+
     public bool canPlay = false;
     public AudioSource audioController;
 
@@ -99,58 +105,33 @@ public class GameController : SingletonBehaviour<GameController> {
 
                 if (songNotes[noteCount] != note.none)
                 {
-                    //ends song and starts a new one
+                    //ends song and starts a new one/////////////////////////////////////////
                     if (songNotes[noteCount] == note.end)
                     {
-                        sheetNum++;
-                        print(sheetNum);
-                        if (sheetNum >= songSheets.Length)
-                        {
-                            //END GAME SCREEN HERE
-                            isSceneChanging = true;
-                        }
-                        else
-                        {
-                            //Sets up the next song
-                            song = songSheets[sheetNum];
-                            ReadLevel.Instance.LoadInCSV(song);
 
-                            switch(sheetNum)
-                            {
-                                case 0:
-                                    bcColor.changeColour(BackColor.Happy);
-                                    tempo = 30;
-                                    audioController.pitch = 0.8f;
-                                    break;
+						canPlay = false;
+						sheetNum++;
+						print(sheetNum);
+						transitionTimer += 5;
 
-                                case 1:
-                                    bcColor.changeColour(BackColor.Depressed);
-                                    tempo = 35;
-                                    audioController.pitch = 0.8f;
-                                    break;
+                      
 
-                                case 2:
-                                    bcColor.changeColour(BackColor.Anxious);
-                                    tempo = 35;
-                                    audioController.pitch = 0.7f;
-                                    break;
+						if (sheetNum >= songSheets.Length) {
+							//END GAME SCREEN HERE
+							isSceneChanging = true;
+						} else  {
+							
+								//Sets up the next song
+							 {
+								song = songSheets [sheetNum];
+								ReadLevel.Instance.LoadInCSV (song);
+							}
+						
 
-                                case 3:
-                                    bcColor.changeColour(BackColor.Calm);
-                                    tempo = 40;
-                                    audioController.pitch = 0.8f;
-                                    break;
-
-                                default:
-                                    bcColor.changeColour(BackColor.Calm);
-                                    tempo = 40;
-                                    audioController.pitch = 0.8f;
-                                    break;
-                            }
-                        }
+						}
                         
                     }
-                    else
+					else if (transitionTimer<= 0)
                     {
                         //Spawns the desired note
                         GameObject newNote = Instantiate(notes) as GameObject;
@@ -189,7 +170,15 @@ public class GameController : SingletonBehaviour<GameController> {
 	// Update is called once per frame
 	void Update() {
 
-        if (canPlay == true)
+
+
+
+
+		if (transitionTimer >= 0) {transitionTimer -= Time.deltaTime; }
+
+		if (transitionTimer <= 0 && button1.activeInHierarchy == false && button2.activeInHierarchy == false) {canPlay = true;}
+
+		if (canPlay == true && transitionTimer <=0)
         {
             if (hasSong)
             {
@@ -198,6 +187,47 @@ public class GameController : SingletonBehaviour<GameController> {
             }
             CheckSceneChange();
         }
+
+
+
+		if (transitionTimer >=1 && transitionTimer <= 2) {
+			ChangeColour ();
+		}
+	}
+
+	void ChangeColour ()
+	{
+		switch (sheetNum) {
+		case 0:
+			bcColor.changeColour (BackColor.Happy);
+			tempo = 30;
+			audioController.pitch = 0.8f;
+			break;
+
+		case 1:
+			bcColor.changeColour (BackColor.Depressed);
+			tempo = 35;
+			audioController.pitch = 0.8f;
+			break;
+
+		case 2:
+			bcColor.changeColour (BackColor.Anxious);
+			tempo = 35;
+			audioController.pitch = 0.7f;
+			break;
+
+		case 3:
+			bcColor.changeColour (BackColor.Calm);
+			tempo = 40;
+			audioController.pitch = 0.8f;
+			break;
+
+		default:
+			bcColor.changeColour (BackColor.Calm);
+			tempo = 40;
+			audioController.pitch = 0.8f;
+			break;
+		}
 	}
 
     //Moves the notes between 3 different lines
