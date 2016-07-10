@@ -23,6 +23,10 @@ public class Player : MonoBehaviour {
     private float moveTime = 0.1f;
     private float direction = 1f;
 
+    private Vector2 targetLerpLeft = new Vector2(0, 0);
+    private Vector2 targetLerpRight = new Vector2(0, 0);
+    private Vector2 targetLerp = new Vector2(0, 0);
+
     #region LocationValues
     private Vector3 pos1;
     private Vector3 pos2;
@@ -74,6 +78,8 @@ public class Player : MonoBehaviour {
                 //MovePlayer();
                 break;
         }
+
+        MoveLerp();
 	}
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -120,9 +126,20 @@ public class Player : MonoBehaviour {
             intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(rightLane.transform, true);
 
             //Moves to position (Must go LMR)
-            leftLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(leftLane.transform.GetChild(0).transform.localPosition, leftLane.transform.localPosition, rowDifference);
+            /*
+            leftLane.transform.GetChild(0).transform.localPosition = 
+                Vector2.MoveTowards
+                (leftLane.transform.GetChild(0).transform.localPosition, 
+                leftLane.transform.localPosition, 
+                rowDifference);
+
             middleLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(middleLane.transform.GetChild(0).transform.localPosition, middleLane.transform.localPosition, rowDifference);
             rightLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(rightLane.transform.GetChild(0).transform.localPosition, rightLane.transform.localPosition, rowDifference * 2f);
+            */
+
+            targetLerpLeft = leftLane.transform.localPosition;
+            targetLerpRight = middleLane.transform.localPosition;
+            targetLerp = rightLane.transform.localPosition;
         }
 
         if(Input.GetKeyDown("left")) {
@@ -136,10 +153,24 @@ public class Player : MonoBehaviour {
             intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(leftLane.transform, true);
 
             //Moves to position(Must go RML)
+            
             rightLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(rightLane.transform.GetChild(0).transform.localPosition, rightLane.transform.localPosition, rowDifference);
             middleLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(middleLane.transform.GetChild(0).transform.localPosition, middleLane.transform.localPosition, rowDifference);
             leftLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(leftLane.transform.GetChild(0).transform.localPosition, leftLane.transform.localPosition, rowDifference*2f);
+            
+            /*
+            targetLerpLeft = leftLane.transform.localPosition;
+            targetLerpRight = middleLane.transform.localPosition;
+            targetLerp = rightLane.transform.localPosition;
+            */
         }
+    }
+
+    void MoveLerp()
+    {
+        rightLane.transform.GetChild(0).transform.localPosition = Vector2.Lerp(rightLane.transform.GetChild(0).transform.localPosition, targetLerpRight, rowDifference);
+        middleLane.transform.GetChild(0).transform.localPosition = Vector2.Lerp(middleLane.transform.GetChild(0).transform.localPosition, targetLerp, rowDifference);
+        leftLane.transform.GetChild(0).transform.localPosition = Vector2.Lerp(leftLane.transform.GetChild(0).transform.localPosition, targetLerpLeft, rowDifference * 2f);
     }
 
     /* //moves the player to the desired loaction
