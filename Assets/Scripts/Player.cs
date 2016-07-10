@@ -79,7 +79,7 @@ public class Player : MonoBehaviour {
                 break;
         }
 
-        MoveLerp();
+        //MoveLerp();
 	}
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour {
             intermediatoryLane.transform.transform.GetChild(0).transform.SetParent(rightLane.transform, true);
 
             //Moves to position (Must go LMR)
-            /*
+            
             leftLane.transform.GetChild(0).transform.localPosition = 
                 Vector2.MoveTowards
                 (leftLane.transform.GetChild(0).transform.localPosition, 
@@ -135,11 +135,12 @@ public class Player : MonoBehaviour {
 
             middleLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(middleLane.transform.GetChild(0).transform.localPosition, middleLane.transform.localPosition, rowDifference);
             rightLane.transform.GetChild(0).transform.localPosition = Vector2.MoveTowards(rightLane.transform.GetChild(0).transform.localPosition, rightLane.transform.localPosition, rowDifference * 2f);
-            */
-
+            
+            /*
             targetLerpLeft = leftLane.transform.localPosition;
             targetLerpRight = middleLane.transform.localPosition;
             targetLerp = rightLane.transform.localPosition;
+            */
         }
 
         if(Input.GetKeyDown("left")) {
